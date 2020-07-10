@@ -1,0 +1,193 @@
+/* globals __DEV__ */
+import Phaser from 'phaser'
+
+import Mushroom from '../sprites/Mushroom'
+import UserInfo from '../UserInfo'
+import DeathMenu from '../deathMenu'
+import WinScreen from '../winScreen'
+
+const TILE_SIZE = 128;
+const WALK_SPEED = 300;
+
+export default class extends Phaser.Scene {
+  constructor() {
+    super({ key: 'GameScene' })
+    this.playerIsAlive = true;
+  }
+  init() { }
+  preload() { }
+
+  create() {
+    this.background = this.add.tileSprite(0, 0, this.scale.canvas.clientWidth, this.scale.canvas.clientHeight, 'background');
+    this.background.setTileScale(.25, .25);
+    this.background.setOrigin(0, 0);
+    this.background.setScrollFactor(0);
+
+    // create the player sprite    
+    this.player = this.physics.add.sprite(200, 1000, 'player').setSize(50, 128);
+    this.player.setBounce(0); // our player will bounce from items
+    this.player.setCollideWorldBounds(true); // don't go out of the map
+
+    this.setupLevel();
+
+    // player animations
+    this.anims.create({
+      key: 'left',
+      frames: this.anims.generateFrameNumbers('player', { start: 2, end: 3 }),
+      frameRate: 10,
+      repeat: -1
+    });
+
+    this.anims.create({
+      key: 'stopLeft',
+      frames: [{ key: 'player', frame: 2 }],
+      frameRate: 20
+    });
+
+    this.anims.create({
+      key: 'stopRight',
+      frames: [{ key: 'player', frame: 0 }],
+      frameRate: 20
+    });
+
+    this.anims.create({
+      key: 'right',
+      frames: this.anims.generateFrameNumbers('player', { start: 0, end: 1 }),
+      frameRate: 10,
+      repeat: -1
+    });
+
+    this.physics.add.collider(this.groundLayer, this.player);
+
+    this.cursors = this.input.keyboard.createCursorKeys();
+
+
+    // set bounds so the camera won't go outside the game world
+    this.cameras.main.setBounds(0, 0, this.map.widthInPixels, this.map.heightInPixels);
+    // make the camera follow the player
+    this.cameras.main.startFollow(this.player);
+
+    // LAVA! 
+    this.physics.add.overlap(this.player, this.lavaLayer);
+    // Tombstones!
+    this.tombstones.forEach((tombstone) => {
+      this.physics.add.collider(this.player, tombstone);
+    });
+  }
+
+  setupLevel() {
+    this.map = this.add.tilemap('level');
+    const tileset = this.map.addTilesetImage('tiles', 'gameTiles');
+    this.groundLayer = this.map.createStaticLayer('Tile Layer 1', tileset);
+
+
+    // the player will collide with this layer
+    this.groundLayer.setCollisionByExclusion([-1]);
+
+    // Lava setup
+    this.lavaLayer = this.map.createStaticLayer('Tile Layer 2', tileset);
+    this.lavaLayer.setTileIndexCallback(4, (sprite) => {
+     this.die(sprite);
+    });
+
+    this.tombstones = [];
+    this.ghosts = this.physics.add.staticGroup();;
+    this.takenBlocks = [];
+
+    this.game.cache.custom.dead.forEach((item, i) => {
+      if (item.spawnItem === 'tombStone') {
+        const location = Math.floor(item.gridLocation[0]);
+        // Need to keep multiple blocks from stacking
+        if (this.takenBlocks.indexOf(location) == -1) {
+          this.takenBlocks.push(location);
+          const tmb = this.physics.add.sprite((location * TILE_SIZE), 1156, 'tombstone')
+            .setSize(84, 145)
+            .setImmovable()
+            .setBounce(.2)
+            .setOffset(22, 5);
+          tmb.setCollideWorldBounds(true);
+          this.add.text(location * TILE_SIZE - 15,1165, item.playerName, {fontSize: '12px', align:'center', fixedWidth: 30, color: '#333'})
+          this.tombstones.push(tmb);
+        }
+      } else if (item.spawnItem === 'ghost') {
+        const location = Math.floor(item.gridLocation[0]);
+        // Need to keep multiple blocks from stacking
+        if (this.takenBlocks.indexOf(location) == -1) {
+          this.takenBlocks.push(location);
+          const ghost = this.ghosts.create((location * TILE_SIZE), 1090 , 'ghost')
+            .setSize(84, 145)
+            .setMass(0)
+            .setBounce(.2)
+            .setOffset(22, 5);
+          //ghost.body.setAllowGravity(false)
+          //ghost.setCollideWorldBounds(true);
+        }
+      }
+
+    });
+
+    this.goal = this.physics.add.sprite(this.groundLayer.width - 128, 900, 'flag')
+      .setSize(84, 145).setImmovable()
+      .setOffset(0, -18);
+    this.goal.setCollideWorldBounds(true);
+    this.physics.add.collider(this.groundLayer, this.goal);
+
+    this.physics.add.overlap(this.player, this.goal, this.win);
+
+    this.physics.add.overlap(this.player, this.ghosts, (sprite) =>{
+      this.die(sprite);
+    });
+
+    // set the boundaries of our game world
+    this.physics.world.bounds.width = this.groundLayer.width;
+    this.physics.world.bounds.height = this.groundLayer.height;
+  }
+
+  win() {
+    WinScreen.show();
+  }
+
+  die(sprite){
+     // The Death, of Playerman
+     if (this.playerIsAlive) {
+      this.player.visible = false;
+      UserInfo.setDeath([Math.ceil(sprite.x / TILE_SIZE), Math.ceil(sprite.y / TILE_SIZE)]);
+      this.playerIsAlive = !this.playerIsAlive;
+      this.sound.play('death');
+      setTimeout(() => {
+        DeathMenu.show();
+      }, 2100);
+    }
+  }
+
+  update() {
+    if (!this.playerIsAlive) return;
+
+    if (this.cursors.left.isDown) // if the left arrow key is down
+    {
+      this.player.body.setVelocityX(-WALK_SPEED); // move left
+      this.player.anims.play('left', true);
+    }
+    else if (this.cursors.right.isDown) // if the right arrow key is down
+    {
+      this.player.body.setVelocityX(WALK_SPEED); // move right
+      this.player.anims.play('right', true);
+    } else {
+      if (this.player.body.velocity.x > 0) {
+        this.player.anims.play('stopRight', true);
+      }
+      else if (this.player.body.velocity.x < 0) {
+        this.player.anims.play('stopLeft', true);
+      }
+      this.player.body.setVelocityX(0);
+    }
+
+    // parallax background scroll
+    this.background.tilePositionX = this.cameras.main.scrollX * .6;
+
+    if ((this.cursors.space.isDown || this.cursors.up.isDown) && (this.player.body.overlapY || this.player.body.onFloor())) {
+      this.player.body.setVelocityY(-600); // jump up
+      this.sound.play('jump');
+    }
+  }
+}
