@@ -14,6 +14,7 @@ export default class extends Phaser.Scene {
   }
   init() { 
     this.playerIsAlive = true;
+    this.gravTimer = 7000;
     LevelManager.setScene(this);
   }
   preload() { }
@@ -149,7 +150,7 @@ export default class extends Phaser.Scene {
     // set timer for gravity change
     this.gravInterval = setInterval(()=>{
       GravityController.flip();
-    }, 5000);
+    }, this.gravTimer);
   }
 
   win() {
