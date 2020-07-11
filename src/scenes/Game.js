@@ -64,12 +64,12 @@ export default class extends Phaser.Scene {
     // make the camera follow the player
     this.cameras.main.startFollow(this.player);
 
-    // LAVA! 
-    this.physics.add.overlap(this.player, this.lavaLayer);
-    // Tombstones!
-    this.tombstones.forEach((tombstone) => {
-      this.physics.add.collider(this.player, tombstone);
-    });
+    // // LAVA! 
+    // this.physics.add.overlap(this.player, this.lavaLayer);
+    // // Tombstones!
+    // this.tombstones.forEach((tombstone) => {
+    //   this.physics.add.collider(this.player, tombstone);
+    // });
 
     GravityController.setWorld(this.physics.world);
   }
@@ -89,6 +89,18 @@ export default class extends Phaser.Scene {
     //  this.die(sprite);
     // });
 
+
+    const makeTrash = 20;
+    const trashArray = []
+    const spread = 1800;
+    for (let i=0;i<makeTrash;i+=1) {
+      trashArray.push(
+        this.physics.add.sprite(Math.random()*spread,Math.random()*spread, 'trash')
+      )
+      this.physics.add.collider(this.groundLayer, trashArray[i]);
+    }
+
+
     this.tombstones = [];
     this.ghosts = this.physics.add.staticGroup();
     this.takenBlocks = [];
@@ -96,8 +108,10 @@ export default class extends Phaser.Scene {
     this.goal = this.physics.add.sprite(this.groundLayer.width - 128, 900, 'flag')
       .setSize(84, 145).setImmovable()
       .setOffset(0, -18);
+
     this.goal.setCollideWorldBounds(true);
     this.physics.add.collider(this.groundLayer, this.goal);
+ 
 
     this.physics.add.overlap(this.player, this.goal, this.win);
 
