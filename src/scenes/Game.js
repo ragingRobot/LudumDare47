@@ -21,7 +21,7 @@ export default class extends Phaser.Scene {
     this.background.setScrollFactor(0);
 
     // create the player sprite    
-    this.player = this.physics.add.sprite(200, 200, 'player').setSize(50, 128);
+    this.player = this.physics.add.sprite(200, 400, 'player').setSize(50, 128);
     this.player.setBounce(0); // our player will bounce from items
     this.player.setCollideWorldBounds(true); // don't go out of the map
 
@@ -64,13 +64,6 @@ export default class extends Phaser.Scene {
     // make the camera follow the player
     this.cameras.main.startFollow(this.player);
 
-    // // LAVA! 
-    // this.physics.add.overlap(this.player, this.lavaLayer);
-    // // Tombstones!
-    // this.tombstones.forEach((tombstone) => {
-    //   this.physics.add.collider(this.player, tombstone);
-    // });
-
     GravityController.setWorld(this.physics.world);
   }
 
@@ -83,11 +76,13 @@ export default class extends Phaser.Scene {
     // the player will collide with this layer
     this.groundLayer.setCollisionByExclusion([-1]);
 
-    // Lava setup
-    this.lavaLayer = this.map.createStaticLayer('Tile Layer 2', tileset);
-    // this.lavaLayer.setTileIndexCallback(4, (sprite) => {
-    //  this.die(sprite);
-    // });
+  
+    this.obstaclesLayer = this.map.createStaticLayer('obstacles', tileset);
+
+    //sets what kills you
+    this.obstaclesLayer.setTileIndexCallback([7,8,9,10,11], (sprite) => {
+      this.die(sprite);
+    });
 
 
     const makeTrash = 20;
