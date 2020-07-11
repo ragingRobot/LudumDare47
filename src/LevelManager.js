@@ -21,7 +21,7 @@ class LevelManager {
  
     nextLevel(scene) {
         if (this.reset) {
-            if (this.current === this.levels.length) {
+            if (this.current === this.levels.length-1) {
                 WinScreen.show();
             }
             this.current++;
