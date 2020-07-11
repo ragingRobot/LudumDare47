@@ -125,6 +125,11 @@ export default class extends Phaser.Scene {
     // set the boundaries of our game world
     this.physics.world.bounds.width = this.groundLayer.width;
     this.physics.world.bounds.height = this.groundLayer.height;
+
+    // set timer for gravity change
+    setInterval(()=>{
+      GravityController.flip();
+    }, 8000);
   }
 
   win() {
