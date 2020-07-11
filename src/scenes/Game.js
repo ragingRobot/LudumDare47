@@ -67,13 +67,6 @@ export default class extends Phaser.Scene {
     this.zoom = .3;
     TweenMax.to(this, 2.5, { zoom: .6 });
 
-    // // LAVA! 
-    // this.physics.add.overlap(this.player, this.obstaclesLayer);
-    // // Tombstones!
-    // this.tombstones.forEach((tombstone) => {
-    //   this.physics.add.collider(this.player, tombstone);
-    // });
-
     GravityController.setWorld(this.physics.world);
   }
 
@@ -92,9 +85,11 @@ export default class extends Phaser.Scene {
     this.obstaclesLayer = this.map.createStaticLayer('obstacles', tileset);
     this.groundLayer.setCollisionByProperty({ collides: true });
 
+    this.physics.add.overlap(this.player, this.obstaclesLayer);
+
     //sets what kills you
     this.obstaclesLayer.setTileIndexCallback([7,8,9,10,11], (sprite) => {
-      this.die(sprite);
+      this.die();
     });
 
 
@@ -143,16 +138,11 @@ export default class extends Phaser.Scene {
     WinScreen.show();
   }
 
-  die(sprite){
-     // The Death, of Playerman
+  die(){
      if (this.playerIsAlive) {
       this.player.visible = false;
-      //UserInfo.setDeath([Math.ceil(sprite.x / TILE_SIZE), Math.ceil(sprite.y / TILE_SIZE)]);
       this.playerIsAlive = !this.playerIsAlive;
       this.sound.play('death');
-      setTimeout(() => {
-        // DeathMenu.show();
-      }, 2100);
     }
   }
 
