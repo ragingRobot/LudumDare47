@@ -92,21 +92,35 @@ export default class extends Phaser.Scene {
       this.die(sprite);
     });
 
-    this.tombstones = [];
-    this.ghosts = this.physics.add.staticGroup();
-    this.takenBlocks = [];
+
+    const makeTrash = 80;  //get it?
+    const trashArray = []
+    const spread = 3000;
+    for (let i=0;i<makeTrash;i+=1) {
+      trashArray.push(
+        this.physics.add.sprite(Math.random()*spread,Math.random()*spread, 'trash')
+      )
+      this.physics.add.collider(this.groundLayer, trashArray[i]);
+    }
+    
+    GravityController.setTrash(trashArray)
+    GravityController.setPlayer(this.player)
 
     this.goal = this.physics.add.sprite(this.groundLayer.width - 128, 900, 'flag')
       .setSize(84, 145).setImmovable()
       .setOffset(0, -18);
+
     this.goal.setCollideWorldBounds(true);
     this.physics.add.collider(this.groundLayer, this.goal);
+ 
 
     this.physics.add.overlap(this.player, this.goal, this.win);
 
-    this.physics.add.overlap(this.player, this.ghosts, (sprite) =>{
-      this.die(sprite);
-    });
+    
+
+    // this.physics.add.overlap(this.player, this.ghosts, (sprite) =>{
+    //   this.die(sprite);
+    // });
 
     // set the boundaries of our game world
     this.physics.world.bounds.width = this.groundLayer.width;

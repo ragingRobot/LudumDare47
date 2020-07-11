@@ -17,6 +17,7 @@ export default class extends Phaser.Scene {
     this.load.image('background', 'assets/images/background.png')
     this.load.image('tombstone', 'assets/images/tombstone.png');
     this.load.image('flag', 'assets/images/flag.png');
+    this.load.image('trash', 'assets/images/trash.png');
     this.load.image('ghost', 'assets/images/ghost.png');
 
     this.load.audio('jump', 'assets/sounds/jump.wav');
