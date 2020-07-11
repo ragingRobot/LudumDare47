@@ -12,7 +12,8 @@ export default {
     default: 'arcade',
     arcade: {
         gravity: { y: 1000 },
-        debug: false
+        debug: false,
+        tileBias: 64,
     }
   },
   localStorageName: 'phaseres6webpack'
