@@ -117,15 +117,17 @@ export default class extends Phaser.Scene {
     });
 
 
-    const makeTrash = 80;  //get it?
+    const makeTrash = 120;  //get it?
     const trashArray = [];
     const spread = 3000;
-    const trashOptions = ['paper', 'bag', 'shoe'];
+    const trashOptions = ['paper']
     for (let i = 0; i < makeTrash; i += 1) {
       const todaysTrash = trashOptions[Math.floor(Math.random() * trashOptions.length)];
       trashArray.push(
         this.physics.add.sprite(Math.random() * spread, Math.random() * spread, todaysTrash)
       )
+      //trashArray[i].tint = 0x00ffff;
+      trashArray[i].setScale(Math.random() / 2)
       this.physics.add.collider(this.groundLayer, trashArray[i]);
     }
 
