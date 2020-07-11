@@ -14,7 +14,7 @@ export default class extends Phaser.Scene {
     this.load.tilemapTiledJSON('level', 'assets/levels/level.json');
     this.load.image('gameTiles', 'assets/images/tiles.png');
     this.load.spritesheet('player', 'assets/images/guy.png', { frameWidth: 128, frameHeight: 128 });
-    this.load.image('background', 'assets/images/background.png')
+    this.load.image('backgroundTiles', 'assets/images/background.png')
     this.load.image('tombstone', 'assets/images/tombstone.png');
     this.load.image('flag', 'assets/images/flag.png');
     this.load.image('trash', 'assets/images/trash.png');
