@@ -6,6 +6,7 @@ import { TweenMax } from "gsap";
 
 const TILE_SIZE = 128;
 const WALK_SPEED = 300;
+const JUMP_HEIGHT = 1000;
 
 export default class extends Phaser.Scene {
   constructor() {
@@ -179,10 +180,14 @@ export default class extends Phaser.Scene {
 
     this.player.body.rotation = (90 * -GravityController.getGravityMultiplier().y) + (90 * -GravityController.getGravityMultiplier().x);
 
-    if ((this.cursors.space.isDown || this.cursors.up.isDown) && (this.player.body.overlapY || this.player.body.onFloor())) {
-      this.player.body.setVelocityY(GravityController.getGravityMultiplier().y * -600); // jump up
+    if ((this.cursors.space.isDown || this.cursors.up.isDown) && (this.player.body.overlapY || this.player.body.onFloor() || this.player.body.onCeiling())) {
+      this.player.body.setVelocityY(GravityController.getGravityMultiplier().y * -JUMP_HEIGHT); // jump up
       this.sound.play('jump');
     }
+
+
+    this.player.scaleX = GravityController.getGravityMultiplier().y;
+
     this.cameras.main.zoom = this.zoom;
   }
 }
