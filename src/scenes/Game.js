@@ -65,12 +65,12 @@ export default class extends Phaser.Scene {
     this.zoom = .3;
     TweenMax.to(this, 2.5, { zoom: .6 });
 
-    // LAVA! 
-    this.physics.add.overlap(this.player, this.obstaclesLayer);
-    // Tombstones!
-    this.tombstones.forEach((tombstone) => {
-      this.physics.add.collider(this.player, tombstone);
-    });
+    // // LAVA! 
+    // this.physics.add.overlap(this.player, this.obstaclesLayer);
+    // // Tombstones!
+    // this.tombstones.forEach((tombstone) => {
+    //   this.physics.add.collider(this.player, tombstone);
+    // });
 
     GravityController.setWorld(this.physics.world);
   }
