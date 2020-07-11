@@ -1,6 +1,7 @@
 /* globals __DEV__ */
 import Phaser from 'phaser'
 import WinScreen from '../winScreen'
+import GravityController from '../GravityController';
 
 const TILE_SIZE = 128;
 const WALK_SPEED = 300;
@@ -20,7 +21,7 @@ export default class extends Phaser.Scene {
     this.background.setScrollFactor(0);
 
     // create the player sprite    
-    this.player = this.physics.add.sprite(200, 1000, 'player').setSize(50, 128);
+    this.player = this.physics.add.sprite(200, 200, 'player').setSize(50, 128);
     this.player.setBounce(0); // our player will bounce from items
     this.player.setCollideWorldBounds(true); // don't go out of the map
 
@@ -69,12 +70,14 @@ export default class extends Phaser.Scene {
     this.tombstones.forEach((tombstone) => {
       this.physics.add.collider(this.player, tombstone);
     });
+
+    GravityController.setWorld(this.physics.world);
   }
 
   setupLevel() {
     this.map = this.add.tilemap('level');
     const tileset = this.map.addTilesetImage('tiles', 'gameTiles');
-    this.groundLayer = this.map.createStaticLayer('Tile Layer 1', tileset);
+    this.groundLayer = this.map.createStaticLayer('walls', tileset);
 
 
     // the player will collide with this layer
@@ -146,12 +149,16 @@ export default class extends Phaser.Scene {
       this.player.body.setVelocityX(0);
     }
 
+    this.player.body.rotation = (90 * -GravityController.getGravityMultiplier().y) + (90 * -GravityController.getGravityMultiplier().x);
+
     // parallax background scroll
     this.background.tilePositionX = this.cameras.main.scrollX * .6;
 
     if ((this.cursors.space.isDown || this.cursors.up.isDown) && (this.player.body.overlapY || this.player.body.onFloor())) {
-      this.player.body.setVelocityY(-600); // jump up
+      this.player.body.setVelocityY(GravityController.getGravityMultiplier().y * -600); // jump up
       this.sound.play('jump');
     }
+
+
   }
 }
