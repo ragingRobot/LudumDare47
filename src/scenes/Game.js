@@ -1,7 +1,7 @@
 /* globals __DEV__ */
 import Phaser from 'phaser'
-import WinScreen from '../winScreen'
 import GravityController from '../GravityController';
+import LevelManager from '../LevelManager';
 import { TweenMax } from "gsap";
 
 const TILE_SIZE = 128;
@@ -11,9 +11,11 @@ const JUMP_HEIGHT = 1000;
 export default class extends Phaser.Scene {
   constructor() {
     super({ key: 'GameScene' })
-    this.playerIsAlive = true;
   }
-  init() { }
+  init() { 
+    this.playerIsAlive = true;
+    LevelManager.setScene(this);
+  }
   preload() { }
 
   create() {
@@ -71,24 +73,45 @@ export default class extends Phaser.Scene {
   }
 
   setupLevel() {
-    this.map = this.add.tilemap('level');
+    LevelManager.getLevel()
+    this.map = this.add.tilemap(LevelManager.getLevel());
     const tileset = this.map.addTilesetImage('tiles', 'gameTiles');
     const backgroundTileset = this.map.addTilesetImage('backgroundTiles', 'backgroundTiles');
 
     this.backgroundLayer = this.map.createStaticLayer('background', backgroundTileset);
     this.groundLayer = this.map.createStaticLayer('walls', tileset);
 
+    const objectsLayer = this.map.getObjectLayer('Objects')['objects'];
+
+    console.log(objectsLayer);
+    objectsLayer.forEach(object => {
+      switch (object.type) {
+        case "goal":
+          this.goal = this.physics.add.sprite(object.x, object.y, 'flag')
+            .setSize(84, 145).setImmovable()
+            .setOffset(0, -18);
+
+          this.goal.setCollideWorldBounds(true);
+          break;
+        case "player":
+          //this.player.setPosition(object)
+          break;
+      }
+    });
+
+
+
     // the player will collide with this layer
     this.groundLayer.setCollisionByExclusion([-1]);
 
-  
+
     this.obstaclesLayer = this.map.createStaticLayer('obstacles', tileset);
     this.groundLayer.setCollisionByProperty({ collides: true });
 
     this.physics.add.overlap(this.player, this.obstaclesLayer);
 
     //sets what kills you
-    this.obstaclesLayer.setTileIndexCallback([7,8,9,10,11], (sprite) => {
+    this.obstaclesLayer.setTileIndexCallback([7, 8, 9, 10, 11], (sprite) => {
       this.die();
     });
 
@@ -97,28 +120,23 @@ export default class extends Phaser.Scene {
     const trashArray = [];
     const spread = 3000;
     const trashOptions = ['paper', 'bag', 'shoe'];
-    for (let i=0;i<makeTrash;i+=1) {
+    for (let i = 0; i < makeTrash; i += 1) {
       const todaysTrash = trashOptions[Math.floor(Math.random() * trashOptions.length)];
       trashArray.push(
-        this.physics.add.sprite(Math.random()*spread,Math.random()*spread, todaysTrash)
+        this.physics.add.sprite(Math.random() * spread, Math.random() * spread, todaysTrash)
       )
       this.physics.add.collider(this.groundLayer, trashArray[i]);
     }
-    
+
     GravityController.setTrash(trashArray)
     GravityController.setPlayer(this.player)
 
-    this.goal = this.physics.add.sprite(this.groundLayer.width - 128, 900, 'flag')
-      .setSize(84, 145).setImmovable()
-      .setOffset(0, -18);
-
-    this.goal.setCollideWorldBounds(true);
     this.physics.add.collider(this.groundLayer, this.goal);
- 
 
-    this.physics.add.overlap(this.player, this.goal, this.win);
 
-    
+    this.physics.add.overlap(this.player, this.goal, this.win.bind(this));
+
+
 
     // this.physics.add.overlap(this.player, this.ghosts, (sprite) =>{
     //   this.die(sprite);
@@ -135,11 +153,12 @@ export default class extends Phaser.Scene {
   }
 
   win() {
-    WinScreen.show();
+    clearInterval(this.gravInterval);
+    LevelManager.nextLevel(this.scene);
   }
 
-  die(){
-     if (this.playerIsAlive) {
+  die() {
+    if (this.playerIsAlive) {
       this.player.visible = false;
       this.playerIsAlive = !this.playerIsAlive;
       this.sound.play('death');
