@@ -2,6 +2,7 @@
 import Phaser from 'phaser'
 import WinScreen from '../winScreen'
 import GravityController from '../GravityController';
+import { TweenMax } from "gsap";
 
 const TILE_SIZE = 128;
 const WALK_SPEED = 300;
@@ -15,10 +16,6 @@ export default class extends Phaser.Scene {
   preload() { }
 
   create() {
-    this.background = this.add.tileSprite(0, 0, this.scale.canvas.clientWidth, this.scale.canvas.clientHeight, 'background');
-    this.background.setTileScale(.25, .25);
-    this.background.setOrigin(0, 0);
-    this.background.setScrollFactor(0);
 
     // create the player sprite    
     this.player = this.physics.add.sprite(200, 400, 'player').setSize(50, 128);
@@ -63,6 +60,10 @@ export default class extends Phaser.Scene {
     this.cameras.main.setBounds(0, 0, this.map.widthInPixels, this.map.heightInPixels);
     // make the camera follow the player
     this.cameras.main.startFollow(this.player);
+
+    //zoom
+    this.zoom = .3;
+    TweenMax.to(this, 2.5, { zoom: .6 });
 
     // LAVA! 
     this.physics.add.overlap(this.player, this.obstaclesLayer);
@@ -153,14 +154,10 @@ export default class extends Phaser.Scene {
 
     this.player.body.rotation = (90 * -GravityController.getGravityMultiplier().y) + (90 * -GravityController.getGravityMultiplier().x);
 
-    // parallax background scroll
-    this.background.tilePositionX = this.cameras.main.scrollX * .6;
-
     if ((this.cursors.space.isDown || this.cursors.up.isDown) && (this.player.body.overlapY || this.player.body.onFloor())) {
       this.player.body.setVelocityY(GravityController.getGravityMultiplier().y * -600); // jump up
       this.sound.play('jump');
     }
-
-
+    this.cameras.main.zoom = this.zoom;
   }
 }
