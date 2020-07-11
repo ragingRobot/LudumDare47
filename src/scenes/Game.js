@@ -31,7 +31,7 @@ export default class extends Phaser.Scene {
     // player animations
     this.anims.create({
       key: 'left',
-      frames: this.anims.generateFrameNumbers('player', { start: 2, end: 3 }),
+      frames: this.anims.generateFrameNumbers('player', { start: 1, end: 5 }),
       frameRate: 10,
       repeat: -1
     });
@@ -178,11 +178,13 @@ export default class extends Phaser.Scene {
     {
       this.player.body.setVelocityX(-WALK_SPEED); // move left
       this.player.anims.play('left', true);
+      this.player.scaleX = -1;
     }
     else if (this.cursors.right.isDown) // if the right arrow key is down
     {
       this.player.body.setVelocityX(WALK_SPEED); // move right
       this.player.anims.play('right', true);
+      this.player.scaleX = 1;
     } else {
       if (this.player.body.velocity.x > 0) {
         this.player.anims.play('stopRight', true);
@@ -200,8 +202,7 @@ export default class extends Phaser.Scene {
       this.sound.play('jump');
     }
 
-
-    this.player.scaleX = GravityController.getGravityMultiplier().y;
+    this.player.scaleX = this.player.scaleX * GravityController.getGravityMultiplier().y;
 
     this.cameras.main.zoom = this.zoom;
   }
