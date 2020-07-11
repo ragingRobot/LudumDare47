@@ -16,13 +16,14 @@ export default class extends Phaser.Scene {
   preload() { }
 
   create() {
-
     // create the player sprite    
     this.player = this.physics.add.sprite(200, 400, 'player').setSize(50, 128);
     this.player.setBounce(0); // our player will bounce from items
     this.player.setCollideWorldBounds(true); // don't go out of the map
 
     this.setupLevel();
+
+    this.children.bringToTop(this.player);
 
     // player animations
     this.anims.create({
@@ -78,8 +79,10 @@ export default class extends Phaser.Scene {
   setupLevel() {
     this.map = this.add.tilemap('level');
     const tileset = this.map.addTilesetImage('tiles', 'gameTiles');
-    this.groundLayer = this.map.createStaticLayer('walls', tileset);
+    const backgroundTileset = this.map.addTilesetImage('backgroundTiles', 'backgroundTiles');
 
+    this.backgroundLayer = this.map.createStaticLayer('background', backgroundTileset);
+    this.groundLayer = this.map.createStaticLayer('walls', tileset);
 
     // the player will collide with this layer
     this.groundLayer.setCollisionByExclusion([-1]);
