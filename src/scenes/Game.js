@@ -86,6 +86,7 @@ export default class extends Phaser.Scene {
 
   
     this.obstaclesLayer = this.map.createStaticLayer('obstacles', tileset);
+    this.groundLayer.setCollisionByProperty({ collides: true });
 
     //sets what kills you
     this.obstaclesLayer.setTileIndexCallback([7,8,9,10,11], (sprite) => {
@@ -127,6 +128,11 @@ export default class extends Phaser.Scene {
     // set the boundaries of our game world
     this.physics.world.bounds.width = this.groundLayer.width;
     this.physics.world.bounds.height = this.groundLayer.height;
+
+    // set timer for gravity change
+    setInterval(()=>{
+      GravityController.flip();
+    }, 5000);
   }
 
   win() {
