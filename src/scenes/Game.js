@@ -1,9 +1,5 @@
 /* globals __DEV__ */
 import Phaser from 'phaser'
-
-import Mushroom from '../sprites/Mushroom'
-import UserInfo from '../UserInfo'
-import DeathMenu from '../deathMenu'
 import WinScreen from '../winScreen'
 
 const TILE_SIZE = 128;
@@ -86,45 +82,13 @@ export default class extends Phaser.Scene {
 
     // Lava setup
     this.lavaLayer = this.map.createStaticLayer('Tile Layer 2', tileset);
-    this.lavaLayer.setTileIndexCallback(4, (sprite) => {
-     this.die(sprite);
-    });
+    // this.lavaLayer.setTileIndexCallback(4, (sprite) => {
+    //  this.die(sprite);
+    // });
 
     this.tombstones = [];
-    this.ghosts = this.physics.add.staticGroup();;
+    this.ghosts = this.physics.add.staticGroup();
     this.takenBlocks = [];
-
-    this.game.cache.custom.dead.forEach((item, i) => {
-      if (item.spawnItem === 'tombStone') {
-        const location = Math.floor(item.gridLocation[0]);
-        // Need to keep multiple blocks from stacking
-        if (this.takenBlocks.indexOf(location) == -1) {
-          this.takenBlocks.push(location);
-          const tmb = this.physics.add.sprite((location * TILE_SIZE), 1156, 'tombstone')
-            .setSize(84, 145)
-            .setImmovable()
-            .setBounce(.2)
-            .setOffset(22, 5);
-          tmb.setCollideWorldBounds(true);
-          this.add.text(location * TILE_SIZE - 15,1165, item.playerName, {fontSize: '12px', align:'center', fixedWidth: 30, color: '#333'})
-          this.tombstones.push(tmb);
-        }
-      } else if (item.spawnItem === 'ghost') {
-        const location = Math.floor(item.gridLocation[0]);
-        // Need to keep multiple blocks from stacking
-        if (this.takenBlocks.indexOf(location) == -1) {
-          this.takenBlocks.push(location);
-          const ghost = this.ghosts.create((location * TILE_SIZE), 1090 , 'ghost')
-            .setSize(84, 145)
-            .setMass(0)
-            .setBounce(.2)
-            .setOffset(22, 5);
-          //ghost.body.setAllowGravity(false)
-          //ghost.setCollideWorldBounds(true);
-        }
-      }
-
-    });
 
     this.goal = this.physics.add.sprite(this.groundLayer.width - 128, 900, 'flag')
       .setSize(84, 145).setImmovable()
@@ -151,11 +115,11 @@ export default class extends Phaser.Scene {
      // The Death, of Playerman
      if (this.playerIsAlive) {
       this.player.visible = false;
-      UserInfo.setDeath([Math.ceil(sprite.x / TILE_SIZE), Math.ceil(sprite.y / TILE_SIZE)]);
+      //UserInfo.setDeath([Math.ceil(sprite.x / TILE_SIZE), Math.ceil(sprite.y / TILE_SIZE)]);
       this.playerIsAlive = !this.playerIsAlive;
       this.sound.play('death');
       setTimeout(() => {
-        DeathMenu.show();
+        // DeathMenu.show();
       }, 2100);
     }
   }

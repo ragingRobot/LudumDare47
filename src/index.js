@@ -3,7 +3,6 @@ import Phaser from 'phaser'
 import BootScene from './scenes/Boot'
 import SplashScene from './scenes/Splash'
 import GameScene from './scenes/Game'
-import UserInfo from './UserInfo'
 
 import config from './config'
 
@@ -23,22 +22,6 @@ class Game extends Phaser.Game {
   }
 }
 
-if(UserInfo.getDeath()){
-  newUser.classList.add("hide");
-  alreadyPlayed.classList.remove("hide");
-  userName.innerHTML = UserInfo.getName();
-} else {
-  nameBox.value = UserInfo.getName();
-  newUser.classList.remove("hide");
-  document.getElementById("startButton").addEventListener("click", (e) => {
-    e.preventDefault();
-    const value = nameBox.value;
-    if(value){
-      UserInfo.setName(value);
-      introBox .classList.add("hide");
-      window.game = new Game();
-    }
-  });
-}
-
+introBox .classList.add("hide");
+window.game = new Game();
 

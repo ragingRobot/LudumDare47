@@ -14,7 +14,7 @@ export default class extends Phaser.Scene {
     this.load.tilemapTiledJSON('level', 'assets/levels/level.json');
     this.load.image('gameTiles', 'assets/images/lava-sprite.png');
     this.load.spritesheet('player', 'assets/images/guy.png', { frameWidth: 128, frameHeight: 128 });
-    this.load.image('loaderBg', '.assets/images/loader-bg.png')
+    // this.load.image('loaderBg', '.assets/images/loader-bg.png')
     this.load.image('background', 'assets/images/background.png')
     this.load.image('tombstone', 'assets/images/tombstone.png');
     this.load.image('flag', 'assets/images/flag.png');
@@ -23,16 +23,6 @@ export default class extends Phaser.Scene {
     this.load.audio('jump', 'assets/sounds/jump.wav');
     this.load.audio('death', 'assets/sounds/death.wav');
     
-    // Ghetto-loader for adding the dead display data from firebase to the `custom` cache
-    firebase.firestore().collection("gridItems").get().then((theDead) => {
-      const deadData = [];
-      theDead.forEach((dead) => {
-        deadData.push(dead.data());
-      });
-      this.load.cacheManager.addCustom('dead');
-      this.load.cacheManager.custom.dead = deadData;
-    });
-
     WebFont.load({
       google: {
         families: ['Bangers']
@@ -42,7 +32,7 @@ export default class extends Phaser.Scene {
   }
 
   update () {
-    if (this.fontsReady && this.load.cacheManager.custom.dead) {
+    if (this.fontsReady /*&& this.load.cacheManager.custom.dead*/) {
       this.scene.start('SplashScene')
     }
   }
