@@ -1,7 +1,9 @@
 class GravityController {
     constructor(){
+        this.player = null;
+        this.trash = null;
         this.world = null;
-        
+
         //for testing just call GravityController.flip() in the console to test
         window.GravityController = this;
     }
@@ -14,7 +16,21 @@ class GravityController {
             console.warn("You need to call GravityController.setWorld");
             return;
         }
-        this.world.gravity.y = -this.world.gravity.y;
+        this.trash.forEach((t) => {
+            t.body.setGravityY(-this.world.gravity.y)  // Make the trash have no gravity relative to the world
+            t.body.setVelocityY(Math.random() * 150 * -(this.world.gravity.y/Math.abs(this.world.gravity.y))) // give it a kick!
+        })
+        
+        this.player.body.setGravityY(-this.world.gravity.y)
+        this.player.body.setVelocityY(Math.random() * 80 * -(this.world.gravity.y/Math.abs(this.world.gravity.y)))
+        
+        setTimeout(()=>{
+            this.world.gravity.y = -this.world.gravity.y;
+            
+            this.trash.forEach((t) => {
+                t.body.setGravityY(this.world.gravity.y) //Reset Gravity
+            })
+        }, 1000)
     }
 
      /**
@@ -28,6 +44,20 @@ class GravityController {
         const {x, y} = this.world.gravity;
         this.world.gravity.y = x;
         this.world.gravity.x = y;
+    }
+
+    /**
+     * let me get that playa
+     */
+    setPlayer(player){
+        this.player = player;
+    }
+    
+    /**
+     * let me get that trash
+     */
+    setTrash(trash){
+        this.trash = trash;
     }
 
     /**
