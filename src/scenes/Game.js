@@ -129,7 +129,7 @@ export default class extends Phaser.Scene {
     this.physics.world.bounds.height = this.groundLayer.height;
 
     // set timer for gravity change
-    setInterval(()=>{
+    this.gravInterval = setInterval(()=>{
       GravityController.flip();
     }, 5000);
   }
@@ -143,6 +143,12 @@ export default class extends Phaser.Scene {
       this.player.visible = false;
       this.playerIsAlive = !this.playerIsAlive;
       this.sound.play('death');
+
+      setTimeout(() => {
+        clearInterval(this.gravInterval);
+        this.playerIsAlive = !this.playerIsAlive;
+        this.scene.restart();
+      }, 1000);
     }
   }
 
