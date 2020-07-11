@@ -9,12 +9,11 @@ export default class extends Phaser.Scene {
   preload () {
     this.fontsReady = false
     this.fontsLoaded = this.fontsLoaded.bind(this)
-    this.add.text(100, 100, 'loading fonts...')
+    this.add.text(100, 100, 'loading...')
 
     this.load.tilemapTiledJSON('level', 'assets/levels/level.json');
     this.load.image('gameTiles', 'assets/images/tiles.png');
     this.load.spritesheet('player', 'assets/images/guy.png', { frameWidth: 128, frameHeight: 128 });
-    // this.load.image('loaderBg', '.assets/images/loader-bg.png')
     this.load.image('background', 'assets/images/background.png')
     this.load.image('tombstone', 'assets/images/tombstone.png');
     this.load.image('flag', 'assets/images/flag.png');
@@ -32,7 +31,7 @@ export default class extends Phaser.Scene {
   }
 
   update () {
-    if (this.fontsReady /*&& this.load.cacheManager.custom.dead*/) {
+    if (this.fontsReady) {
       this.scene.start('SplashScene')
     }
   }
