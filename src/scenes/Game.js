@@ -70,6 +70,7 @@ export default class extends Phaser.Scene {
     TweenMax.to(this, 2.5, { zoom: .6 });
 
     GravityController.setWorld(this.physics.world);
+    GravityController.setCameras(this.cameras);
   }
 
   setupLevel() {

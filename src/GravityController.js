@@ -24,6 +24,8 @@ class GravityController {
         this.player.body.setGravityY(-this.world.gravity.y)
         this.player.body.setVelocityY(Math.random() * 80 * -(this.world.gravity.y/Math.abs(this.world.gravity.y)))
         
+        this.shake();
+
         setTimeout(()=>{
             this.world.gravity.y = -this.world.gravity.y;
             
@@ -66,6 +68,22 @@ class GravityController {
     setWorld(world) {
         this.world = world;
     }
+
+    /**
+     * let me get that cameras
+     */
+    setCameras(cameras) {
+        this.cameras = cameras;
+    }
+
+    /**
+     * my milkshake brings all the boys to the yard
+     */
+    shake() {
+        this.cameras.main.shake(400, 0.02, false, (camera, progressAmount) => {
+          this.isShaking = progressAmount < 1;
+        });
+      }
 
     /**
      * gives a positive or negative number (the number is 1) for x and y gravity.
