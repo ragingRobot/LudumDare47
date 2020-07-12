@@ -2,7 +2,7 @@ import WinScreen from './winScreen'
 import GameScene from './scenes/Game'
 class LevelManager {
     constructor() {
-        this.levels = ['level1', 'level'];
+        this.levels = ['level', 'level1'];
         this.levelGravInterval = [5000, 7000];
         this.current = 0;
         this.reset = false;
