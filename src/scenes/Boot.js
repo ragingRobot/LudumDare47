@@ -18,7 +18,7 @@ export default class extends Phaser.Scene {
     this.load.spritesheet('player', 'assets/images/guy.png', { frameWidth: 128, frameHeight: 128 });
     this.load.image('backgroundTiles', 'assets/images/background.png')
     this.load.image('tombstone', 'assets/images/tombstone.png');
-    this.load.image('flag', 'assets/images/flag.png');
+    this.load.image('hole', 'assets/images/mousehole.png');
     
     this.load.image('box', 'assets/images/trash-box.png');
     this.load.image('paper', 'assets/images/trash-paper.png');
