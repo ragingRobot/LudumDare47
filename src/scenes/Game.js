@@ -14,7 +14,6 @@ export default class extends Phaser.Scene {
   }
   init() { 
     this.playerIsAlive = true;
-    this.gravTimer = 7000;
     LevelManager.setScene(this);
   }
   preload() { }
@@ -78,6 +77,7 @@ export default class extends Phaser.Scene {
     this.map = this.add.tilemap(LevelManager.getLevel());
     const tileset = this.map.addTilesetImage('tiles', 'gameTiles');
     const backgroundTileset = this.map.addTilesetImage('backgroundTiles', 'backgroundTiles');
+    const gravTimer = LevelManager.getGravInterval();
 
     this.backgroundLayer = this.map.createStaticLayer('background', backgroundTileset);
     this.groundLayer = this.map.createStaticLayer('walls', tileset);
@@ -152,7 +152,7 @@ export default class extends Phaser.Scene {
     // set timer for gravity change
     this.gravInterval = setInterval(()=>{
       GravityController.flip();
-    }, this.gravTimer);
+    }, gravTimer);
   }
 
   win() {

@@ -3,6 +3,7 @@ import GameScene from './scenes/Game'
 class LevelManager {
     constructor() {
         this.levels = ['level1', 'level'];
+        this.levelGravInterval = [5000, 7000];
         this.current = 0;
         this.reset = false;
     }
@@ -17,6 +18,10 @@ class LevelManager {
      */
     getLevel() {
         return this.levels[this.current];
+    }
+
+    getGravInterval() {
+        return this.levelGravInterval[this.current];
     }
  
     nextLevel(scene) {
