@@ -6,7 +6,7 @@ import { TweenMax } from "gsap";
 
 const TILE_SIZE = 128;
 const WALK_SPEED = 300;
-const JUMP_HEIGHT = 1000;
+const JUMP_HEIGHT = 720;
 
 export default class extends Phaser.Scene {
   constructor() {
@@ -24,7 +24,7 @@ export default class extends Phaser.Scene {
     this.player = this.physics.add.sprite(200, 400, 'player').setSize(50, 128);
     this.player.setBounce(0); // our player will bounce from items
     this.player.setCollideWorldBounds(true); // don't go out of the map
-
+    
     this.setupLevel();
 
     this.children.bringToTop(this.player);
@@ -84,15 +84,11 @@ export default class extends Phaser.Scene {
 
     const objectsLayer = this.map.getObjectLayer('Objects')['objects'];
 
-    console.log(objectsLayer);
     objectsLayer.forEach(object => {
       switch (object.type) {
         case "goal":
-          this.goal = this.physics.add.sprite(object.x, object.y, 'flag')
-            .setSize(84, 145).setImmovable()
-            .setOffset(0, -18);
-
-          this.goal.setCollideWorldBounds(true);
+          this.goal = this.physics.add.staticSprite(object.x, object.y+96, 'hole')
+            .setSize(226, 187)
           break;
         case "player":
           //this.player.setPosition(object)
@@ -134,11 +130,10 @@ export default class extends Phaser.Scene {
     GravityController.setTrash(trashArray)
     GravityController.setPlayer(this.player)
 
-    this.physics.add.collider(this.groundLayer, this.goal);
+    // this.physics.add.collider(this.groundLayer, this.goal);
 
 
     this.physics.add.overlap(this.player, this.goal, this.win.bind(this));
-
 
 
     // this.physics.add.overlap(this.player, this.ghosts, (sprite) =>{
