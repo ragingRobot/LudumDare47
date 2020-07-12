@@ -82,12 +82,12 @@
         {
          "columns":7,
          "firstgid":1,
-         "image":"..\/images\/tiles.png",
-         "imageheight":384,
-         "imagewidth":898,
-         "margin":0,
+         "image":"..\/images\/tiles-extruded.png",
+         "imageheight":390,
+         "imagewidth":910,
+         "margin":1,
          "name":"tiles",
-         "spacing":0,
+         "spacing":2,
          "tilecount":21,
          "tileheight":128,
          "tilewidth":128
