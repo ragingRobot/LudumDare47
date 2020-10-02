@@ -1,32 +1,35 @@
-import Phaser from "phaser";
-import logoImg from "./assets/logo.png";
+import Phaser from 'phaser'
 
-const config = {
-  type: Phaser.AUTO,
-  parent: "phaser-example",
-  width: 800,
-  height: 600,
-  scene: {
-    preload: preload,
-    create: create
+import BootScene from './scenes/Boot'
+import SplashScene from './scenes/Splash'
+import GameScene from './scenes/Game'
+import GlowFilterPipelinePlugin from 'phaser3-rex-plugins/plugins/glowfilterpipeline-plugin.js';
+
+import config from './config'
+
+const introBox = document.getElementsByClassName("intro")[0];
+
+
+const gameConfig = Object.assign(config, {
+  scene: [BootScene, SplashScene, GameScene],
+  plugins: {
+    global: [{
+        key: 'rexGlowFilterPipeline',
+        plugin: GlowFilterPipelinePlugin,
+        start: true
+    }]
   }
-};
+})
 
-const game = new Phaser.Game(config);
-
-function preload() {
-  this.load.image("logo", logoImg);
+class Game extends Phaser.Game {
+  constructor () {
+    super(gameConfig)
+  }
 }
+document.getElementById("startButton").addEventListener("click", (e) => {
+  e.preventDefault();
+  introBox .classList.add("hide");
+});
 
-function create() {
-  const logo = this.add.image(400, 150, "logo");
+window.game = new Game();
 
-  this.tweens.add({
-    targets: logo,
-    y: 450,
-    duration: 2000,
-    ease: "Power2",
-    yoyo: true,
-    loop: -1
-  });
-}
