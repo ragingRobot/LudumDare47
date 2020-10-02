@@ -94,6 +94,133 @@
       display: block;
       margin: auto;
     }
+    .controls {
+        display: block;
+        height: 112px;
+        width: 100%;
+        margin-top: -112px;
+        position: relative;
+    }
+    .circles {
+        display: block;
+        height: 112px;
+        width:100%;
+        position: relative;
+        overflow: hidden;
+    }
+    .circles:before {
+        content: "";
+        display: block;
+        width: 233px;
+        height: 265px;
+        border: 5px solid;
+        border-radius: 50%;
+        position: absolute;
+        left: -66px;
+        background: white;
+    }
+
+    .circles:after {
+        content: "";
+        display: block;
+        width: 236px;
+        height: 200px;
+        border: 5px solid;
+        border-radius: 50%;
+        position: absolute;
+        right: -59px;
+        background: white;
+        top: 13px;
+    }
+
+    .d-pad {
+        display: block;
+        width: 110px;
+        height: 110px;
+        position: absolute;
+        top: 30px;
+        left: 18px;
+        text-align: center;
+        transform: rotate(-15deg);
+    }
+
+    .d-pad > span {
+        background: #373738;
+    }
+
+    .up, .left, .center, .right, .down {
+        display: block;
+        width: 26%;
+        height: 26%;
+        background: white;
+        margin: auto;
+    }
+    .up, .left, .right, .down
+    {
+        border: 3px solid black;
+    }
+    .up:active, .left:active, .right:active, .down:active
+    {
+        background: grey;
+    }
+
+
+    .left, .center, .right
+    {
+        display: inline-block;
+        margin: 0px -3px;
+    }
+
+    .up, .down{
+        margin: -8px auto;
+    }
+
+    .right {
+        border-left: none;
+    }
+
+    .left {
+        border-right: none;
+    }
+
+    .up {
+        border-bottom: none;
+    }
+
+    .down {
+        border-top: none;
+    }
+
+    .actions {
+        position: absolute;
+        right: 11px;
+        top: 29px;
+        transform: rotate(0deg);
+    }
+    .jump, .shoot {
+        display: inline-block;
+        border: 3px solid black;
+        width: 53px;
+        height: 53px;
+        border-radius: 50%;
+    }
+
+    .jump {
+        background: #adbef7;
+    }
+    .jump:active, .shoot:active {
+        background: grey;
+    }
+
+    .shoot {
+        width: 75px;
+        height: 75px;
+        background: #dcadf7;
+    }
+
+    .hide {
+        display: none;
+    }
   </style>
 </head>
 
@@ -117,6 +244,22 @@
       <h1>You won!</h1>
     </div>
   </div>
+
+
+  <div class="controls hide">
+    <div class="circles"></div>
+    <div class="d-pad">
+        <span class="up"></span>
+        <span class="left"></span>
+        <span class="center"></span>
+        <span class="right"></span>
+        <span class="down"></span>
+    </div>
+    <div class="actions">
+        <div class="jump"></div>
+        <div class="shoot"></div>
+    </div>
+</div>
 </body>
 
 </html>

@@ -1,6 +1,7 @@
 /* globals __DEV__ */
 import Phaser from 'phaser'
 import GravityController from '../GravityController';
+import Controller from '../Controller.js'
 import LevelManager from '../LevelManager';
 import { TweenMax } from "gsap";
 
@@ -184,13 +185,13 @@ export default class extends Phaser.Scene {
     if (!this.playerIsAlive) return;
     const gravDirection = GravityController.getGravityMultiplier().y > 0;
 
-    if (this.cursors.left.isDown) // if the left arrow key is down
+    if (this.cursors.left.isDown  || Controller.left) // if the left arrow key is down
     {
       this.player.body.setVelocityX(-WALK_SPEED); // move left
       this.player.anims.play('left', true);
       this.player.scaleX = gravDirection ? -1 : 1;
     }
-    else if (this.cursors.right.isDown) // if the right arrow key is down
+    else if (this.cursors.right.isDown || Controller.right) // if the right arrow key is down
     {
       this.player.body.setVelocityX(WALK_SPEED); // move right
       this.player.anims.play('right', true);
@@ -207,7 +208,7 @@ export default class extends Phaser.Scene {
 
     this.player.body.rotation = (90 * -GravityController.getGravityMultiplier().y) + (90 * -GravityController.getGravityMultiplier().x);
 
-    if ((this.cursors.space.isDown || this.cursors.up.isDown) && (this.player.body.overlapY || this.player.body.onFloor() || this.player.body.onCeiling())) {
+    if ((this.cursors.space.isDown || this.cursors.up.isDown || Controller.action1) && (this.player.body.overlapY || this.player.body.onFloor() || this.player.body.onCeiling())) {
       this.player.body.setVelocityY(GravityController.getGravityMultiplier().y * -JUMP_HEIGHT); // jump up
       this.sound.play('jump');
     }
