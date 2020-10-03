@@ -87,7 +87,7 @@ export default class extends Phaser.Scene {
 
     //sets what kills you
     this.obstaclesLayer.setTileIndexCallback([7, 8, 9, 10, 11], (sprite) => {
-      this.die();
+      this.player.die();
     });
 
     // set the boundaries of our game world
