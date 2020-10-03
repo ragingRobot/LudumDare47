@@ -132,6 +132,9 @@ export default class extends Phaser.Scene {
           this.physics.add.overlap(npc, this.obstaclesLayer);
           this.physics.add.collider(this.groundLayer, npc);
           this.physics.add.overlap(this.player, npc);
+          this.physics.add.overlap(this.player, npc, ()=>{
+            npc.speak();
+          });
           break;
 
         case "enemy":

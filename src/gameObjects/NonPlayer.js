@@ -15,6 +15,11 @@ class NonPlayer extends Phaser.Physics.Arcade.Sprite {
     this.scale = 3; //scaled up from low-res sprite, we can just make larger sprites if needed 
   }
 
+  speak() {
+    //add message here
+    console.log("talk");
+  }
+
   updateLife(amount = -1) {
     if (this.life > 0 && !this.invincible) {
       this.invincible = true;
