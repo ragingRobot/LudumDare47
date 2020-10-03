@@ -17,25 +17,9 @@ class Player extends Phaser.Physics.Arcade.Sprite {
     this.cursors = scene.input.keyboard.createCursorKeys();
   }
 
-
-  updateLife(amount = -1, updater = null) {
+  updateLife(amount = -1) {
     if (this.life > 0 && !this.invincible) {
       this.invincible = true;
-
-      if (this.life + amount < MAX_LIFE) {
-        this.life += amount;
-        ShaderManager.updatePulse(updater);
-      } else if(this.life + amount >= MAX_LIFE){
-        this.life = MAX_LIFE;
-        ShaderManager.updatePulse(updater);
-      }
-
-      if(amount > 0){
-        this.scene.sound.play("powerUp");
-      } else {
-        this.scene.sound.play("powerDown");
-      }
-
       setTimeout(() => {
         this.invincible = false;
       }, 1000);
