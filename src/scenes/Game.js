@@ -3,10 +3,8 @@ import Phaser from 'phaser'
 import Player from '../gameObjects/Player'
 import LevelManager from '../LevelManager';
 import { TweenMax } from "gsap";
+import NonPlayer from '../gameObjects/NonPlayer';
 
-const TILE_SIZE = 128;
-const WALK_SPEED = 300;
-const JUMP_HEIGHT = 720;
 const ANIMATION_FRAME_RATE = 10
 export default class extends Phaser.Scene {
   constructor() {
@@ -98,7 +96,13 @@ export default class extends Phaser.Scene {
             .setSize(226, 187)
           break;
         case "player":
-          //this.player.setPosition(object)
+          this.player.x = object.x;
+          this.player.y = object.y;
+          break;
+        case "npc":
+          const npc = new NonPlayer(this);
+          npc.x = object.x;
+          npc.y = object.y;
           break;
       }
     });
