@@ -7,7 +7,7 @@ import { TweenMax } from "gsap";
 const TILE_SIZE = 128;
 const WALK_SPEED = 300;
 const JUMP_HEIGHT = 720;
-
+const ANIMATION_FRAME_RATE = 10
 export default class extends Phaser.Scene {
   constructor() {
     super({ key: 'GameScene' })
@@ -19,6 +19,34 @@ export default class extends Phaser.Scene {
   create() {
     // create the player sprite    
     this.player = new Player(this);
+    this.player.scale = 3; //scaled up from low-res sprite, we can just make larger sprites if needed 
+    
+    // Player Animations
+    this.anims.create({
+      key: 'down',
+      frames: this.anims.generateFrameNumbers('player', {start: 0, end: 2}),
+      frameRate: ANIMATION_FRAME_RATE,
+    });
+
+    this.anims.create({
+      key: 'up',
+      frames: this.anims.generateFrameNumbers('player', {start: 3, end: 5}),
+      frameRate: ANIMATION_FRAME_RATE,
+    
+    });
+    this.anims.create({
+      key: 'left',
+      frames: this.anims.generateFrameNumbers('player', {start: 6, end: 8}),
+      frameRate: ANIMATION_FRAME_RATE,
+    });
+    this.anims.create({
+      key: 'right',
+      frames: this.anims.generateFrameNumbers('player', {start: 39, end: 41}),
+      frameRate: ANIMATION_FRAME_RATE,
+    });
+    
+    
+    
     this.setupLevel();
 
     this.children.bringToTop(this.player);
