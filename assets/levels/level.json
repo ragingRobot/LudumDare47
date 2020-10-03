@@ -75,8 +75,8 @@
                  "type":"npc",
                  "visible":true,
                  "width":0,
-                 "x":769.69696969697,
-                 "y":672.727272727273
+                 "x":769.697,
+                 "y":672.727
                 }, 
                 {
                  "height":0,
@@ -87,8 +87,20 @@
                  "type":"npc",
                  "visible":true,
                  "width":0,
-                 "x":1433.33333333333,
-                 "y":1815.15151515152
+                 "x":1433.33,
+                 "y":1815.15
+                }, 
+                {
+                 "height":0,
+                 "id":8,
+                 "name":"",
+                 "point":true,
+                 "rotation":0,
+                 "type":"enemy",
+                 "visible":true,
+                 "width":0,
+                 "x":669.69696969697,
+                 "y":1984.84848484848
                 }],
          "opacity":1,
          "type":"objectgroup",
@@ -97,7 +109,7 @@
          "y":0
         }],
  "nextlayerid":12,
- "nextobjectid":8,
+ "nextobjectid":9,
  "orientation":"orthogonal",
  "renderorder":"right-down",
  "tiledversion":"1.2.4",
