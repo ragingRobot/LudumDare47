@@ -106,6 +106,8 @@ export default class extends Phaser.Scene {
           npc.x = object.x;
           npc.y = object.y;
           this.ObjectsToUpdate.push(npc);
+          this.physics.add.overlap(npc, this.obstaclesLayer);
+          this.physics.add.collider(this.groundLayer, npc);
           break;
 
         case "enemy":
@@ -113,6 +115,8 @@ export default class extends Phaser.Scene {
           enemy.x = object.x;
           enemy.y = object.y;
           this.ObjectsToUpdate.push(enemy);
+          this.physics.add.overlap(enemy, this.obstaclesLayer);
+          this.physics.add.collider(this.groundLayer, enemy);
           break;
       }
     });
