@@ -19,6 +19,24 @@ class Enemy extends Phaser.Physics.Arcade.Sprite {
     this.currentDirection = 0;
     this.swapDirections();
 
+    this.setTint(0xff0000, 0x00ff00, 0x0000ff, 0xff0000);
+
+  }
+
+  hitPlayer (playerY) {
+    if(playerY > this.y){
+      this.anims.play('hitup', true);
+    } else {
+      this.anims.play('hitdown', true);
+    }
+
+    //disable walk animations
+    this.currentDirection = -1;
+    setTimeout(()=>{
+      //reenable
+      this.currentDirection = 0;
+    }, 500);
+
   }
 
   swapDirections(){
@@ -60,31 +78,33 @@ class Enemy extends Phaser.Physics.Arcade.Sprite {
       return;
     }
 
-    if (directions[this.currentDirection] == 'left')
-    {
-      this.body.setVelocityX(-WALK_SPEED); // move left
-      this.anims.play('left', true);
-    }
-    else if (directions[this.currentDirection] == 'right')
-    {
-      this.body.setVelocityX(WALK_SPEED); // move right
-      this.anims.play('right', true);
-    } else {
-      this.body.setVelocityX(this.body.velocity.x / 1.2);
-    }
+    if(this.currentDirection > -1) {
+      if (directions[this.currentDirection] == 'left')
+      {
+        this.body.setVelocityX(-WALK_SPEED); // move left
+        this.anims.play('left', true);
+      }
+      else if (directions[this.currentDirection] == 'right')
+      {
+        this.body.setVelocityX(WALK_SPEED); // move right
+        this.anims.play('right', true);
+      } else {
+        this.body.setVelocityX(this.body.velocity.x / 1.2);
+      }
 
 
-    if (directions[this.currentDirection] == 'up')
-    {
-      this.body.setVelocityY(-WALK_SPEED); // move up
-      this.anims.play('up', true);
-    }
-    else if (directions[this.currentDirection] == 'down')
-    {
-      this.body.setVelocityY(WALK_SPEED); // move down
-      this.anims.play('down', true);
-    } else {
-      this.body.setVelocityY(this.body.velocity.y / 1.2);
+      if (directions[this.currentDirection] == 'up')
+      {
+        this.body.setVelocityY(-WALK_SPEED); // move up
+        this.anims.play('up', true);
+      }
+      else if (directions[this.currentDirection] == 'down')
+      {
+        this.body.setVelocityY(WALK_SPEED); // move down
+        this.anims.play('down', true);
+      } else {
+        this.body.setVelocityY(this.body.velocity.y / 1.2);
+      }
     }
 
   }
