@@ -17,6 +17,7 @@ class Player extends Phaser.Physics.Arcade.Sprite {
     this.cursors = scene.input.keyboard.createCursorKeys();
   }
 
+
   updateLife(amount = -1, updater = null) {
     if (this.life > 0 && !this.invincible) {
       this.invincible = true;
@@ -72,7 +73,7 @@ class Player extends Phaser.Physics.Arcade.Sprite {
       this.body.setVelocityX(WALK_SPEED); // move right
       this.anims.play('right', true);
     } else {
-      this.body.setVelocityX(0);
+      this.body.setVelocityX(this.body.velocity.x / 1.2);
     }
 
 
@@ -86,7 +87,7 @@ class Player extends Phaser.Physics.Arcade.Sprite {
       this.body.setVelocityY(WALK_SPEED); // move down
       this.anims.play('down', true);
     } else {
-      this.body.setVelocityY(0);
+      this.body.setVelocityY(this.body.velocity.y / 1.2);
     }
 
     if (this.cursors.space.isDown || Controller.action1) {
