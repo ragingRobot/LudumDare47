@@ -34,7 +34,7 @@ class Player extends Phaser.Physics.Arcade.Sprite {
     if (this.isAlive) {
       this.visible = false;
       this.isAlive = false;
-      this.scene.sound.play('death');
+      this.scene.sound.play('pain');
       setTimeout(() => {
         this.scene.scene.restart();
       }, 2100);
