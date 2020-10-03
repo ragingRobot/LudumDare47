@@ -52,7 +52,23 @@ export default class extends Phaser.Scene {
       frames: this.anims.generateFrameNumbers('player', {start: 39, end: 41}),
       frameRate: ANIMATION_FRAME_RATE,
     });
+
+
+
+
+    this.anims.create({
+      key: 'hitdown',
+      frames: this.anims.generateFrameNumbers('player', {start: 18, end: 19}),
+      frameRate: ANIMATION_FRAME_RATE,
+    });
+
+    this.anims.create({
+      key: 'hitup',
+      frames: this.anims.generateFrameNumbers('player', {start: 20, end: 21}),
+      frameRate: ANIMATION_FRAME_RATE,
     
+    });
+  
     
     
     this.setupLevel();
@@ -102,8 +118,7 @@ export default class extends Phaser.Scene {
     objectsLayer.forEach(object => {
       switch (object.type) {
         case "goal":
-          this.goal = this.physics.add.staticSprite(object.x, object.y+96, 'hole')
-            .setSize(226, 187)
+          //this.goal = this.physics.add.staticSprite(object.x, object.y+96, 'hole').setSize(226, 187)
           break;
         case "player":
           this.player.x = object.x;
@@ -116,6 +131,7 @@ export default class extends Phaser.Scene {
           this.ObjectsToUpdate.push(npc);
           this.physics.add.overlap(npc, this.obstaclesLayer);
           this.physics.add.collider(this.groundLayer, npc);
+          this.physics.add.overlap(this.player, npc);
           break;
 
         case "enemy":
@@ -125,6 +141,11 @@ export default class extends Phaser.Scene {
           this.ObjectsToUpdate.push(enemy);
           this.physics.add.overlap(enemy, this.obstaclesLayer);
           this.physics.add.collider(this.groundLayer, enemy);
+          this.physics.add.overlap(this.player, enemy, ()=>{
+            this.player.updateLife();
+            enemy.hitPlayer();
+          });
+
           break;
       }
     });

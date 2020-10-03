@@ -19,9 +19,13 @@ class Player extends Phaser.Physics.Arcade.Sprite {
 
   updateLife(amount = -1) {
     if (this.life > 0 && !this.invincible) {
+      this.life += amount;
+      this.scene.sound.play('pain');
       this.invincible = true;
+      this.alpha = .5;
       setTimeout(() => {
         this.invincible = false;
+        this.alpha = 1;
       }, 1000);
     }
     if (this.life <= 0) {
