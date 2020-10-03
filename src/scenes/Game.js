@@ -4,11 +4,13 @@ import Player from '../gameObjects/Player'
 import LevelManager from '../LevelManager';
 import { TweenMax } from "gsap";
 import NonPlayer from '../gameObjects/NonPlayer';
+import Enemy from '../gameObjects/Enemy';
 
 const ANIMATION_FRAME_RATE = 10
 export default class extends Phaser.Scene {
   constructor() {
     super({ key: 'GameScene' })
+    this.ObjectsToUpdate = [];
   }
   init() {
     LevelManager.setScene(this);
@@ -103,6 +105,14 @@ export default class extends Phaser.Scene {
           const npc = new NonPlayer(this);
           npc.x = object.x;
           npc.y = object.y;
+          this.ObjectsToUpdate.push(npc);
+          break;
+
+        case "enemy":
+          const enemy = new Enemy(this);
+          enemy.x = object.x;
+          enemy.y = object.y;
+          this.ObjectsToUpdate.push(enemy);
           break;
       }
     });
@@ -130,5 +140,8 @@ export default class extends Phaser.Scene {
   update() {
     this.cameras.main.zoom = this.zoom;
     this.player.update();
+    this.ObjectsToUpdate.forEach((item)=>{
+      item.update();
+    })
   }
 }
