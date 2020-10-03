@@ -20,8 +20,13 @@ export default class extends Phaser.Scene {
     this.load.image('hole', 'assets/images/mousehole.png');
     this.load.image('paper', 'assets/images/trash-paper.png');
 
+    this.load.audio('backgroundMusic', 'assets/sounds/prison-yard.mp3');
     this.load.audio('jump', 'assets/sounds/jump.wav');
     this.load.audio('death', 'assets/sounds/death.wav');
+    this.load.audio('pain', 'assets/sounds/pain.wav');
+    this.load.audio('pain-2', 'assets/sounds/pain-2.wav');
+    this.load.audio('sword-hit', 'assets/sounds/sword-hit.wav');
+    this.load.audio('greeting', 'assets/sounds/greeting.wav');
     
     WebFont.load({
       google: {

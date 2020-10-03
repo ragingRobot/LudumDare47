@@ -17,6 +17,14 @@ export default class extends Phaser.Scene {
   }
 
   create() {
+    //background music
+    const backgroundMusic = this.sound.add("backgroundMusic", {
+      volume: 0.5,
+      loop: true,
+      detune: 25,
+    });
+    backgroundMusic.play();
+
     // create the player sprite    
     this.player = new Player(this);
     this.player.scale = 3; //scaled up from low-res sprite, we can just make larger sprites if needed 
