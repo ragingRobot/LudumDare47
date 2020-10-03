@@ -25,8 +25,8 @@ export default class extends Phaser.Scene {
     this.load.audio('death', 'assets/sounds/death.wav');
     this.load.audio('pain', 'assets/sounds/pain.wav');
     this.load.audio('pain-2', 'assets/sounds/pain-2.wav');
-    this.load.audio('greeting', 'assets/sounds/greeting.wav');
     this.load.audio('sword-hit', 'assets/sounds/sword-hit.wav');
+    this.load.audio('greeting', 'assets/sounds/greeting.wav');
 
 
     

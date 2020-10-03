@@ -17,6 +17,7 @@ export default class extends Phaser.Scene {
   }
 
   create() {
+    
     //background music
     const backgroundMusic = this.sound.add("backgroundMusic", {
       volume: 0.5,
