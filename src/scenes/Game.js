@@ -135,6 +135,30 @@ export default class extends Phaser.Scene {
     // set the boundaries of our game world
     this.physics.world.bounds.width = this.groundLayer.width;
     this.physics.world.bounds.height = this.groundLayer.height;
+
+    // Game Timer
+    this.timerText = ""
+    this.timerSeconds = 60 * 2;
+    this.timer = this.time.addEvent({
+      delay: 1000,
+      callback: () => {
+        this.timerSeconds-=1;
+        let seconds = this.timerSeconds % 60;
+        let minutes = Math.floor(this.timerSeconds / 60)
+        seconds = seconds > 9 ? seconds + '' : '0' + seconds
+        minutes = minutes > 9 ? minutes + '' : '0' + minutes
+        this.timerText = `${minutes}:${seconds}`
+        if (minutes === 0 && seconds === 0) {
+          // Reset the timer / scene
+        }
+      },
+      callbackScope: this,
+      loop: true
+    })
+
+    this.text = this.add.text(0,0, '')
+    this.text.setFontSize(50)
+    this.text.setColor('black')
   }
 
   update() {
@@ -143,5 +167,9 @@ export default class extends Phaser.Scene {
     this.ObjectsToUpdate.forEach((item)=>{
       item.update();
     })
+
+    this.text.setText(this.timerText)
+    const relativeSpace = this.cameras.main.getWorldPoint(this.cameras.main.width / 2, 90)
+    this.text.setPosition(relativeSpace.x, relativeSpace.y)
   }
 }
