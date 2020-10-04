@@ -15,7 +15,7 @@ export default class extends Phaser.Scene {
     this.load.tilemapTiledJSON('level', 'assets/levels/level.json');
     
     this.load.image('gameTiles', 'assets/images/tiles-extruded.png');
-    this.load.spritesheet('player', 'assets/images/sprite-example.png', { frameWidth: 48, frameHeight: 48 });
+    this.load.spritesheet('player', 'assets/images/prisoner_adjusted.png', { frameWidth: 48, frameHeight: 48 });
     this.load.image('backgroundTiles', 'assets/images/background.png')
     this.load.image('hole', 'assets/images/mousehole.png');
     this.load.image('paper', 'assets/images/trash-paper.png');

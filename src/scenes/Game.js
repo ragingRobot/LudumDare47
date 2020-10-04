@@ -49,7 +49,7 @@ export default class extends Phaser.Scene {
     });
     this.anims.create({
       key: 'right',
-      frames: this.anims.generateFrameNumbers('player', {start: 39, end: 41}),
+      frames: this.anims.generateFrameNumbers('player', {start: 9, end: 11}),
       frameRate: ANIMATION_FRAME_RATE,
     });
 
