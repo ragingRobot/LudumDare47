@@ -18,9 +18,11 @@ class Player extends Phaser.Physics.Arcade.Sprite {
   }
 
   updateLife(amount = -1) {
-    if (this.life > 0 && !this.invincible) {
+    if (this.life > 0 && !this.invincible && !this.isHitting) {
       this.life += amount;
+      if (this.life >= 1) {
       this.scene.sound.play('pain');
+      }
       this.invincible = true;
       this.alpha = .5;
       setTimeout(() => {
@@ -36,18 +38,17 @@ class Player extends Phaser.Physics.Arcade.Sprite {
 
   die() {
     if (this.isAlive) {
-      this.visible = false;
+      // this.visible = false;
       this.isAlive = false;
-      this.scene.sound.play('pain');
-      setTimeout(() => {
-        this.scene.scene.restart();
-      }, 2100);
+      
+      if (this.life == 0 ) {this.scene.sound.play('pain-2');
+      this.anims.play('death', true);}
     }
   }
 
 
   update() {
-    if (!this.body) {
+    if (!this.body || !this.isAlive) {
       return;
     }
 
@@ -65,6 +66,7 @@ class Player extends Phaser.Physics.Arcade.Sprite {
     }
 
 
+
     if (this.cursors.up.isDown  || Controller.up) // if the up arrow key is down
     {
       this.body.setVelocityY(-WALK_SPEED); // move up
@@ -78,8 +80,11 @@ class Player extends Phaser.Physics.Arcade.Sprite {
       this.body.setVelocityY(this.body.velocity.y / 1.2);
     }
 
-    if (this.cursors.space.isDown || Controller.action1) {
-      //this.shoot();
+    if (this.cursors.space.isDown || Controller.action1) { // hit on space bar
+        this.anims.play('hitdown', true);
+        this.isHitting = true;
+    } else {
+      this.isHitting = false
     }
     
   }

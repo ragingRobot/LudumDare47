@@ -18,6 +18,7 @@ class NonPlayer extends Phaser.Physics.Arcade.Sprite {
   speak() {
     //add message here
     console.log("talk");
+    this.scene.showMessage();
   }
 
   updateLife(amount = -1) {
