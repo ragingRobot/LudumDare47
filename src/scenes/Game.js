@@ -56,23 +56,23 @@ export default class extends Phaser.Scene {
       frameRate: ANIMATION_FRAME_RATE,
     });
 
-    this.anims.create({
-      key: "hitdown",
-      frames: this.anims.generateFrameNumbers("player", { start: 18, end: 19 }),
-      frameRate: ANIMATION_FRAME_RATE,
-    });
+    // this.anims.create({
+    //   key: "hitdown",
+    //   frames: this.anims.generateFrameNumbers("player", { start: 18, end: 19 }),
+    //   frameRate: ANIMATION_FRAME_RATE,
+    // });
 
-    this.anims.create({
-      key: "hitup",
-      frames: this.anims.generateFrameNumbers("player", { start: 20, end: 21 }),
-      frameRate: ANIMATION_FRAME_RATE,
-    });
+    // this.anims.create({
+    //   key: "hitup",
+    //   frames: this.anims.generateFrameNumbers("player", { start: 20, end: 21 }),
+    //   frameRate: ANIMATION_FRAME_RATE,
+    // });
 
-    this.anims.create({
-      key: "death",
-      frames: this.anims.generateFrameNumbers("player", { start: 21, end: 21 }),
-      frameRate: ANIMATION_FRAME_RATE,
-    });
+    // this.anims.create({
+    //   key: "death",
+    //   frames: this.anims.generateFrameNumbers("player", { start: 21, end: 21 }),
+    //   frameRate: ANIMATION_FRAME_RATE,
+    // });
 
     this.setupLevel();
 
