@@ -6,12 +6,13 @@ import GameScene from './scenes/Game'
 import GlowFilterPipelinePlugin from 'phaser3-rex-plugins/plugins/glowfilterpipeline-plugin.js';
 
 import config from './config'
+import Intermission from './scenes/Intermission';
 
 const introBox = document.getElementsByClassName("intro")[0];
 
 
 const gameConfig = Object.assign(config, {
-  scene: [BootScene, SplashScene, GameScene],
+  scene: [BootScene, SplashScene, GameScene, Intermission],
   plugins: {
     global: [{
         key: 'rexGlowFilterPipeline',
@@ -28,7 +29,7 @@ class Game extends Phaser.Game {
 }
 document.getElementById("startButton").addEventListener("click", (e) => {
   e.preventDefault();
-  introBox .classList.add("hide");
+  introBox.classList.add("hide");
 });
 
 window.game = new Game();
