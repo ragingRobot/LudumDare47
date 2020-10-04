@@ -178,7 +178,7 @@ export default class extends Phaser.Scene {
     this.scene.sleep('IntermissionScene')
 
     // Game Timer & Scene Reset
-    const DEFAULT_TIMER_SECONDS = 60;
+    const DEFAULT_TIMER_SECONDS = 45;
 
     this.timerText = ""
     this.timerSeconds = DEFAULT_TIMER_SECONDS;
@@ -190,14 +190,14 @@ export default class extends Phaser.Scene {
         let minutes = Math.floor(this.timerSeconds / 60)
         seconds = seconds > 9 ? seconds + '' : '0' + seconds
         minutes = minutes > 9 ? minutes + '' : '0' + minutes
-        this.timerText = `${minutes}:${seconds}`
-        if (this.timerSeconds === 5) {
+        this.timerText = `Time left in the day: ${minutes}:${seconds}`
+        if (this.timerSeconds === 2) {
 
           // Game Scene Fading and Switching
           this.scene.get('GameScene').events.once('wake', () => {
             this.timerSeconds = DEFAULT_TIMER_SECONDS
             this.cameras.main.fadeIn(1000, 0, 0, 0)
-            //Reset Character positions, etc  <<---
+            this.player.setPosition(200, 200)
           })
 
           this.cameras.main.once(Phaser.Cameras.Scene2D.Events.FADE_OUT_COMPLETE, (cam, eff) => {
@@ -214,7 +214,7 @@ export default class extends Phaser.Scene {
 
     this.text = this.add.text(0,0, '')
     this.text.setFontSize(50)
-    this.text.setColor('red')
+    this.text.setColor('white')
   }
 
   update() {
@@ -225,7 +225,7 @@ export default class extends Phaser.Scene {
     })
 
     this.text.setText(this.timerText)
-    const relativeSpace = this.cameras.main.getWorldPoint(this.cameras.main.width / 2, 90)
+    const relativeSpace = this.cameras.main.getWorldPoint(20, 20)
     this.text.setPosition(relativeSpace.x, relativeSpace.y)
   }
 }
