@@ -11,6 +11,8 @@ export default class extends Phaser.Scene {
     this.fontsLoaded = this.fontsLoaded.bind(this)
     this.add.text(100, 100, 'loading...')
 
+    this.load.plugin('DialogModalPlugin', './gameObjects/dialog_plugin.js');
+
     this.load.tilemapTiledJSON('level1', 'assets/levels/level1.json');
     this.load.tilemapTiledJSON('level', 'assets/levels/level.json');
     
@@ -24,8 +26,8 @@ export default class extends Phaser.Scene {
     this.load.audio('jump', 'assets/sounds/jump.wav');
     this.load.audio('death', 'assets/sounds/death.wav');
     this.load.audio('pain', 'assets/sounds/pain.wav');
-    this.load.audio('pain-2', 'assets/sounds/pain-2.wav');
-    this.load.audio('sword-hit', 'assets/sounds/sword-hit.wav');
+    this.load.audio('pain-2', 'assets/sounds/Pain2.wav');
+    this.load.audio('swordhit', 'assets/sounds/swordhit.wav');
     this.load.audio('greeting', 'assets/sounds/greeting.wav');
     
     WebFont.load({
