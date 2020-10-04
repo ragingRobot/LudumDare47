@@ -18,12 +18,12 @@ export default class extends Phaser.Scene {
 
   create() {
     //background music
-    const backgroundMusic = this.sound.add("backgroundMusic", {
+    this.backgroundMusic = this.sound.add("backgroundMusic", {
       volume: 0.5,
       loop: true,
       detune: 25,
     });
-    backgroundMusic.play();
+    this.backgroundMusic.play();
 
     // create the player sprite    
     this.player = new Player(this);
@@ -171,10 +171,17 @@ export default class extends Phaser.Scene {
     // set the boundaries of our game world
     this.physics.world.bounds.width = this.groundLayer.width;
     this.physics.world.bounds.height = this.groundLayer.height;
+    
+    
+    // Prep the intermission scene for display
+    this.scene.launch('IntermissionScene') // Gets the scene ready for switching
+    this.scene.sleep('IntermissionScene')
 
-    // Game Timer
+    // Game Timer & Scene Reset
+    const DEFAULT_TIMER_SECONDS = 60;
+
     this.timerText = ""
-    this.timerSeconds = 60 * 2;
+    this.timerSeconds = DEFAULT_TIMER_SECONDS;
     this.timer = this.time.addEvent({
       delay: 1000,
       callback: () => {
@@ -184,8 +191,21 @@ export default class extends Phaser.Scene {
         seconds = seconds > 9 ? seconds + '' : '0' + seconds
         minutes = minutes > 9 ? minutes + '' : '0' + minutes
         this.timerText = `${minutes}:${seconds}`
-        if (minutes === 0 && seconds === 0) {
-          // Reset the timer / scene
+        if (this.timerSeconds === 5) {
+
+          // Game Scene Fading and Switching
+          this.scene.get('GameScene').events.once('wake', () => {
+            this.timerSeconds = DEFAULT_TIMER_SECONDS
+            this.cameras.main.fadeIn(1000, 0, 0, 0)
+            //Reset Character positions, etc  <<---
+          })
+
+          this.cameras.main.once(Phaser.Cameras.Scene2D.Events.FADE_OUT_COMPLETE, (cam, eff) => {
+            this.scene.wake('IntermissionScene')
+            this.scene.bringToTop('IntermissionScene')
+            this.scene.sleep()
+          });
+          this.cameras.main.fadeOut(1000, 0, 0, 0)    
         }
       },
       callbackScope: this,
@@ -194,7 +214,7 @@ export default class extends Phaser.Scene {
 
     this.text = this.add.text(0,0, '')
     this.text.setFontSize(50)
-    this.text.setColor('black')
+    this.text.setColor('red')
   }
 
   update() {
