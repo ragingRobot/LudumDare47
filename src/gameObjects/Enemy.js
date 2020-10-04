@@ -35,7 +35,7 @@ class Enemy extends Phaser.Physics.Arcade.Sprite {
     setTimeout(()=>{
       //reenable
       this.currentDirection = 0;
-    }, 500);
+    }, 500 * Math.random());
 
   }
 
