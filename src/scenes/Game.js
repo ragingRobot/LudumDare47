@@ -51,28 +51,28 @@ export default class extends Phaser.Scene {
       frameRate: ANIMATION_FRAME_RATE,
     });
     this.anims.create({
-      key: "right",
-      frames: this.anims.generateFrameNumbers("player", { start: 39, end: 41 }),
+      key: 'right',
+      frames: this.anims.generateFrameNumbers('player', {start: 9, end: 11}),
       frameRate: ANIMATION_FRAME_RATE,
     });
 
-    this.anims.create({
-      key: "hitdown",
-      frames: this.anims.generateFrameNumbers("player", { start: 18, end: 19 }),
-      frameRate: ANIMATION_FRAME_RATE,
-    });
+    // this.anims.create({
+    //   key: "hitdown",
+    //   frames: this.anims.generateFrameNumbers("player", { start: 18, end: 19 }),
+    //   frameRate: ANIMATION_FRAME_RATE,
+    // });
 
-    this.anims.create({
-      key: "hitup",
-      frames: this.anims.generateFrameNumbers("player", { start: 20, end: 21 }),
-      frameRate: ANIMATION_FRAME_RATE,
-    });
+    // this.anims.create({
+    //   key: "hitup",
+    //   frames: this.anims.generateFrameNumbers("player", { start: 20, end: 21 }),
+    //   frameRate: ANIMATION_FRAME_RATE,
+    // });
 
-    this.anims.create({
-      key: "death",
-      frames: this.anims.generateFrameNumbers("player", { start: 21, end: 21 }),
-      frameRate: ANIMATION_FRAME_RATE,
-    });
+    // this.anims.create({
+    //   key: "death",
+    //   frames: this.anims.generateFrameNumbers("player", { start: 21, end: 21 }),
+    //   frameRate: ANIMATION_FRAME_RATE,
+    // });
 
     this.setupLevel();
 
